@@ -3,6 +3,7 @@ import streamlit as st
 from datetime import datetime, timedelta
 from functionsAll import fazerLogin,verificar_login,definir_login,enviar_respostas_google_forms
 import requests
+import time
 
 def main():
     # Verifica se o usuário está logado
@@ -44,11 +45,26 @@ def main():
     if st.button("Enviar Formulário"):
         # Enviar dados para o Google Forms
         enviar_respostas_google_forms(dia_selecionado, exercicio, input_peso, input_repeticoes)
-        # Exibindo os valores inseridos
-        st.success(f"Dia selecionado: {dia_selecionado}")
-        st.success(f"Exercício selecionado: {exercicio}")
-        st.success(f"Kg ou Lbs: {input_peso}")
-        st.success(f"Repetições: {input_repeticoes}")
+         # Exibir as mensagens de sucesso
+        mensagem_dia = st.empty()
+        mensagem_exercicio = st.empty()
+        mensagem_peso = st.empty()
+        mensagem_repeticoes = st.empty()
+
+        # Atualizar as mensagens com os dados
+        mensagem_dia.success(f"Dia selecionado: {dia_selecionado}")
+        mensagem_exercicio.success(f"Exercício selecionado: {exercicio}")
+        mensagem_peso.success(f"Kg ou Lbs: {input_peso}")
+        mensagem_repeticoes.success(f"Repetições: {input_repeticoes}")
+
+        # Esperar alguns segundos
+        time.sleep(4)
+
+        # Limpar as mensagens
+        mensagem_dia.empty()
+        mensagem_exercicio.empty()
+        mensagem_peso.empty()
+        mensagem_repeticoes.empty()
 
 if __name__ == '__main__':
     main()
