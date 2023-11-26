@@ -1,6 +1,13 @@
 import streamlit as st
 from datetime import datetime, timedelta
 import requests
+from decouple import config
+from supabase import create_client, Client
+import time
+
+# Obtenha as chaves da variável de ambiente
+url = config('SUPABASE_URL')
+key = config('SUPABASE_API_KEY')
 nome01 = "Rego"
 nome02 = "Higor"
 senha = "projetinho2024@"
@@ -44,3 +51,48 @@ def enviar_respostas_google_forms(dia_selecionado, exercicio, input_peso, input_
     else:
         print("Erro ao enviar dados para o formulário. Código de status:", response.status_code)
         print(response.text)
+
+
+class SupabaseClient:
+    def __init__(self, url, key):
+        self.url = url
+        self.key = key
+        self.supabase = None
+
+    def create_client(self):
+        try:
+            self.supabase = create_client(self.url, self.key)
+            if self.supabase:
+                print("Cliente Supabase criado com sucesso!")
+            else:
+                print("Erro ao criar o cliente Supabase.")
+        except Exception as e:
+            print(f"Erro: {e}")
+
+    def login(self, email, password):
+        try:
+            if self.supabase:
+                res = self.supabase.auth.sign_up({
+                    "email": email,
+                    "password": password
+                })
+                if res['user']:
+                    print(f"Usuário {email} autenticado com sucesso!")
+                else:
+                    print("Erro ao autenticar o usuário.")
+            else:
+                print("Cliente Supabase não foi inicializado.")
+        except Exception as e:
+            print(f"Erro ao autenticar o usuário: {e}")
+
+
+def cronometro():
+    start_time = time.time()
+    stop_button = st.button("Parar Cronômetro")
+
+    while not stop_button:
+        elapsed_time = time.time() - start_time
+        st.text(f"Tempo decorrido: {int(elapsed_time)} segundos")
+        stop_button = st.button("Parar Cronômetro")
+
+    st.text("Cronômetro parado e pop-up fechado")

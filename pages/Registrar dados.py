@@ -1,15 +1,31 @@
 # exemplo.py
 import streamlit as st
 from datetime import datetime, timedelta
-from functionsAll import fazerLogin,verificar_login,definir_login,enviar_respostas_google_forms
+from functionsAll import fazerLogin,verificar_login,definir_login,enviar_respostas_google_forms,cronometro
 import requests
 import time
-
+from decouple import config
+import os
+from functionsAll import SupabaseClient
+# Obtenha as chaves da variável de ambiente
+url = config('SUPABASE_URL')
+key = config('SUPABASE_API_KEY')
+from decouple import config
 def main():
     # Verifica se o usuário está logado
     if not verificar_login():
         st.warning("Você não está logado ou seu tempo de sessão expirou. Faça o login novamente.")
         return
+    
+    # # Criar uma instância da classe SupabaseClient
+    # supabase_client = SupabaseClient(url, key)
+    # supabase_client.create_client()
+
+
+    # # Exemplo de login
+    # email='seu-email@example.com'
+    # password='sua-senha-secreta'
+    # supabase_client.login(email, password)
 
     # Conteúdo da página que só deve ser exibido se o usuário estiver logado
     st.title("Regitro de treino")
@@ -65,6 +81,12 @@ def main():
         mensagem_exercicio.empty()
         mensagem_peso.empty()
         mensagem_repeticoes.empty()
+        # Usar st.modal para criar um pop-up
+        with st.modal():
+            st.title("Cronômetro")
+        
+        # Iniciar o cronômetro
+        cronometro()
 
 if __name__ == '__main__':
     main()
