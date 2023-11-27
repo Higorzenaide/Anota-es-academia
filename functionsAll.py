@@ -5,7 +5,6 @@ from decouple import config
 from supabase import create_client, Client
 import time
 
-
 # Obtenha as chaves da variável de ambiente
 url = config('SUPABASE_URL')
 key = config('SUPABASE_API_KEY')
@@ -91,3 +90,4 @@ class SupabaseClient:
                 print("Cliente Supabase não foi inicializado.")
         except Exception as e:
             print(f"Erro ao autenticar o usuário: {e}")
+
