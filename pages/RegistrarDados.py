@@ -38,7 +38,10 @@ def main():
         semana_de_treino = ['Selecione', 'Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']
         semana_de_treino_select = st.selectbox("Selecione qual semana está:", semana_de_treino)
         if semana_de_treino_select != 'Selecione':
-            st.info("Serão 3 Séries cada exercício")
+            if semana_de_treino_select == 'Semana 1':
+                st.info("Serão 3 Séries cada exercício")
+            else: 
+                st.info("Serão 4 Séries cada exercício")
         else:
             return
         # Select Box para escolher o dia da semana
