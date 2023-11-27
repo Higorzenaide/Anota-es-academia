@@ -1,12 +1,13 @@
 import streamlit as st
 from datetime import datetime, timedelta
 from functionsAll import fazerLogin,verificar_login,definir_login
-
+from pages.RegistrarDados import User
 
 def main():
     # Verifica se o usuário está logado
     if verificar_login():
         st.success("Você já está logado!")
+
 
     # Se não estiver logado ou se o tempo de sessão expirou, exibe o formulário de login
     else:
@@ -20,6 +21,7 @@ def main():
             if retorno:
                 definir_login(True)
                 st.success("Login efetuado")
+                User(input_name)
             else:
                 st.error("Tente novamente")
 
